@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>test_circu_sim</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <SignAssembly>True</SignAssembly>
+    <Platforms>x86</Platforms>
+    <Copyright>Info cu Andrei 2021-2023</Copyright>
+    <Description>Tests for Circuit Simulator App</Description>
+    <StartupObject></StartupObject>
+    <AnalysisLevel>6.0-recommended</AnalysisLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <WarningLevel>9999</WarningLevel>
+    <NoWarn>1701;1702;NETSDK1138;CA1305</NoWarn>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <WarningLevel>9999</WarningLevel>
+    <NoWarn>1701;1702;NETSDK1138;CA1305</NoWarn>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\circu-sim\circu-sim.csproj" />
+  </ItemGroup>
+
+</Project>
