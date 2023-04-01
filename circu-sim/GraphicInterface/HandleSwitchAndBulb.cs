@@ -7,7 +7,7 @@ namespace circu_sim
 {
     public partial class CircuitSimulator
     {
-        private const int MaxComponents = 8;
+        private const int MaxComponents = 10;
 
         private NestedCircuit CurrentCircuit = new(GenerateGuid());
         private readonly Dictionary<SwitchComponent, PictureBox> SwitchToConnector = new();
