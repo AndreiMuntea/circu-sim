@@ -1,6 +1,7 @@
 ﻿using circu_sim.CircuitLogic;
 using circu_sim.GraphicComponents;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace circu_sim
@@ -33,12 +34,13 @@ namespace circu_sim
             var inputPosition = GetNodePosition(CurrentCircuit.Inputs, CircuitNodeType.Input);
             var inputIdentifier = GetNodeIdentifier(CircuitNodeType.Input, inputPosition);
             var inputNode = CurrentCircuit.InsertNode(CircuitNodeType.Input, inputIdentifier);
+            var inputLocation = GetSwitchLocation(inputPosition);
 
             SwitchComponent switchComponent = new(
                 inputNode,
                 Properties.Resources.Switch_On,
                 Properties.Resources.Switch_Off,
-                GetSwitchLocation(inputPosition),
+                inputLocation,
                 GetOnOffComponenSize(),
                 inputPosition
             );
@@ -46,6 +48,9 @@ namespace circu_sim
             switchComponent.MouseClick += PictureBoxSwitch_MouseClick;
             switchComponent.MouseDoubleClick += PictureBoxSwitch_MouseClick;
             switchComponent.MouseMove += Line_MouseMove;
+
+            Label switchLabel = CreateInputOutputLabel(inputIdentifier, inputLocation);
+            PictureBoxBoard.Controls.Add(switchLabel);
 
             return switchComponent;
         }
@@ -82,18 +87,22 @@ namespace circu_sim
             var outputPosition = GetNodePosition(CurrentCircuit.Outputs, CircuitNodeType.Output);
             var outputIdentifier = GetNodeIdentifier(CircuitNodeType.Output, outputPosition);
             var outputNode = CurrentCircuit.InsertNode(CircuitNodeType.Output, outputIdentifier);
+            var outputLocation = GetBulbLocation(outputPosition);
 
             BulbComponent bulbComponent = new(
                 outputNode,
                 Properties.Resources.Bulb_On,
                 Properties.Resources.Bulb_Off,
-                GetBulbLocation(outputPosition),
+                outputLocation,
                 GetOnOffComponenSize(),
                 outputPosition
             );
 
             bulbComponent.MouseClick += PictureBoxBulb_MouseClick;
             bulbComponent.MouseMove += Line_MouseMove;
+
+            Label bulbLabel = CreateInputOutputLabel(outputIdentifier, outputLocation);
+            PictureBoxBoard.Controls.Add(bulbLabel);
 
             return bulbComponent;
         }

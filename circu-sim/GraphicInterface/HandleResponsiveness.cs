@@ -67,7 +67,7 @@ namespace circu_sim
 
         private int GetOnOffComponentTopLocation(int OnOffComponentPosition)
         {
-            int initialPosition = 10;
+            int initialPosition = 30;
             int padding = (int)(0.1 * PictureBoxBoard.Height);
 
             return initialPosition + (padding * OnOffComponentPosition);
@@ -75,7 +75,7 @@ namespace circu_sim
 
         private Size GetOnOffComponenSize()
         {
-            int height = (int)(0.08 * Size.Height);
+            int height = (int)(0.07 * Size.Height);
             return new Size(height, height);
         }
 
@@ -144,6 +144,12 @@ namespace circu_sim
             var labelCircuit = new Font(labelFont.FontFamily, labelFont.Size - 4, FontStyle.Bold);
 
             return labelCircuit;
+        }
+
+        private Font GetInputOutputLabelFont()
+        {
+            var labelFont = new Font("Microsoft JhengHei", GetFontSize() - 8, FontStyle.Bold);
+            return labelFont;
         }
 
         private void SetFont()
