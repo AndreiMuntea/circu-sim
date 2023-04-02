@@ -122,10 +122,10 @@ namespace circu_sim
                 BorderStyle= BorderStyle.None,
                 Location = new Point(OnOffComponent.Location.X, OnOffComponent.Location.Y - 25)
             };
-            onOffComponentLabel.BringToFront();
+            onOffComponentLabel.Size = GetOnOffComponentLabelSize(onOffComponentLabel);
 
-            onOffComponentLabel.Size = TextRenderer.MeasureText(onOffComponentLabel.Text, onOffComponentLabel.Font);
             onOffComponentLabel.TextChanged += OnOffComponentLabel_TextChanged;
+            onOffComponentLabel.MouseMove += Line_MouseMove;
 
             return onOffComponentLabel;
         }
@@ -137,7 +137,7 @@ namespace circu_sim
                 return;
             }
 
-            onOffComponentLabel.Size = TextRenderer.MeasureText(onOffComponentLabel.Text, onOffComponentLabel.Font);
+            onOffComponentLabel.Size = GetOnOffComponentLabelSize(onOffComponentLabel);
         }
 
         private void PictureBoxSwitch_MouseClick(object? sender, MouseEventArgs e)

@@ -196,6 +196,7 @@ namespace circu_sim
         private void UnregisterOnOffComponentLabelEvents(TextBox OnOffComponentLabel)
         {
             OnOffComponentLabel.TextChanged -= OnOffComponentLabel_TextChanged;
+            OnOffComponentLabel.MouseMove -= Line_MouseMove;
         }
 
         private void UnregisterCircuitNodeEvents(OnOffComponent CircuitNode)
