@@ -74,7 +74,7 @@ namespace circu_sim
 
         private int GetOnOffComponentTopLocation(int OnOffComponentPosition)
         {
-            int initialPosition = (int)(0.02 * PictureBoxBoard.Width);
+            int initialPosition = (int)(0.03 * PictureBoxBoard.Height);
             int padding = (int)(0.1 * PictureBoxBoard.Height);
 
             return initialPosition + (padding * OnOffComponentPosition);
@@ -166,7 +166,7 @@ namespace circu_sim
 
         private Font GetOnOffComponentLabelFont()
         {
-            var labelFont = new Font("Microsoft JhengHei", GetFontSize() - 8, FontStyle.Bold);
+            var labelFont = new Font("Microsoft JhengHei", GetFontSize() - 4, FontStyle.Bold);
             return labelFont;
         }
 
