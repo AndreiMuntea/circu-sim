@@ -76,6 +76,7 @@ namespace circu_sim
         private void DeleteSwitch(SwitchComponent SwitchComponent)
         {
             DeleteConnector(SwitchComponent);
+            DeleteOnOffComponentLabel(SwitchComponent);
 
             CurrentCircuit.DeleteNode(SwitchComponent.Node);
 
@@ -98,6 +99,8 @@ namespace circu_sim
 
         private void DeleteBulb(BulbComponent BulbComponent)
         {
+            DeleteOnOffComponentLabel(BulbComponent);
+
             CurrentCircuit.DeleteNode(BulbComponent.Node);
 
             DeleteLines(GetLinksToBulb(BulbComponent));
@@ -105,6 +108,16 @@ namespace circu_sim
             UnregisterBulbEvents(BulbComponent);
 
             Dispose(BulbComponent);
+        }
+
+        private void DeleteOnOffComponentLabel(OnOffComponent OnOffComponent)
+        {
+            var onOffComponentLabel = GetLabelByOnOffComponent(OnOffComponent);
+            OnOffComponentToLabel.Remove(OnOffComponent);
+
+            UnregisterOnOffComponentLabelEvents(onOffComponentLabel);
+
+            Dispose(onOffComponentLabel);
         }
 
         private void DeleteCircuitNode(OnOffComponent CircuitNode)
@@ -178,6 +191,11 @@ namespace circu_sim
         {
             BulbComponent.MouseClick -= PictureBoxBulb_MouseClick;
             BulbComponent.MouseMove -= Line_MouseMove;
+        }
+
+        private void UnregisterOnOffComponentLabelEvents(TextBox OnOffComponentLabel)
+        {
+            OnOffComponentLabel.TextChanged -= OnOffComponentLabel_TextChanged;
         }
 
         private void UnregisterCircuitNodeEvents(OnOffComponent CircuitNode)

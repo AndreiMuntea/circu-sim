@@ -13,6 +13,7 @@ namespace circu_sim
 
         private NestedCircuit CurrentCircuit = new(GenerateGuid());
         private readonly Dictionary<SwitchComponent, PictureBox> SwitchToConnector = new();
+        private readonly Dictionary<OnOffComponent, TextBox> OnOffComponentToLabel = new();
 
         private void PictureBoxSwitchIcon_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -26,7 +27,8 @@ namespace circu_sim
 
             var switchComponentLabel = CreateOnOffComponentLabel(switchComponent);
             PictureBoxBoard.Controls.Add(switchComponentLabel);
-            PictureBoxBoard.Controls.SetChildIndex(switchComponentLabel, 0);
+
+            OnOffComponentToLabel.Add(switchComponent, switchComponentLabel);
 
             var connectorComponent = CreateConnectorComponent(switchComponent);
             PictureBoxBoard.Controls.Add(connectorComponent);
@@ -84,7 +86,8 @@ namespace circu_sim
 
             var bulbComponentLabel = CreateOnOffComponentLabel(bulbComponent);
             PictureBoxBoard.Controls.Add(bulbComponentLabel);
-            PictureBoxBoard.Controls.SetChildIndex(bulbComponentLabel, 0);
+
+            OnOffComponentToLabel.Add(bulbComponent, bulbComponentLabel);
         }
 
         private BulbComponent CreateBulbComponent()
