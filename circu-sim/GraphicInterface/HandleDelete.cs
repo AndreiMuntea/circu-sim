@@ -70,6 +70,11 @@ namespace circu_sim
                 {
                     DeleteCircuit(circuit);
                 }
+
+                else if (component is TextBox onOffComponentLabel)
+                {
+                    PictureBoxBoard.Controls.Remove(onOffComponentLabel);
+                }
             }
         }
 
