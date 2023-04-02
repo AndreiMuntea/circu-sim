@@ -44,6 +44,13 @@ namespace circu_sim
 
                     circuit.Resize(GetCircuitSize(circuit.LogicCircuit), GetCircuitConnectorSize(), GetCircuitLabelFont());
                 }
+
+                if (control is OnOffComponent onOffComponent)
+                {
+                    var onOffComponentLabel = GetLabelByOnOffComponent(onOffComponent);
+                    onOffComponentLabel.Size = GetOnOffComponentLabelSize(onOffComponentLabel);
+                    onOffComponentLabel.Location = GetOnOffComponentLabelLocation(onOffComponent);
+                }
             }
 
             PictureBoxBoard.Invalidate();
@@ -67,7 +74,7 @@ namespace circu_sim
 
         private int GetOnOffComponentTopLocation(int OnOffComponentPosition)
         {
-            int initialPosition = 30;
+            int initialPosition = (int)(0.02 * PictureBoxBoard.Width);
             int padding = (int)(0.1 * PictureBoxBoard.Height);
 
             return initialPosition + (padding * OnOffComponentPosition);
@@ -75,7 +82,7 @@ namespace circu_sim
 
         private Size GetOnOffComponenSize()
         {
-            int height = (int)(0.07 * Size.Height);
+            int height = (int)(0.06 * Size.Height);
             return new Size(height, height);
         }
 
@@ -90,6 +97,17 @@ namespace circu_sim
         private static Size GetConnectorSize(SwitchComponent SwitchComponent)
         {
             return new Size(SwitchComponent.Size.Width / 2, SwitchComponent.Size.Height / 2);
+        }
+
+        private Point GetOnOffComponentLabelLocation(OnOffComponent OnOffComponent)
+        {
+            int padding = (int)(0.025 * PictureBoxBoard.Height);
+            return new Point(OnOffComponent.Location.X, OnOffComponent.Location.Y - padding);
+        }
+
+        private static Size GetOnOffComponentLabelSize(TextBox OnOffComponentLabel)
+        {
+            return TextRenderer.MeasureText(OnOffComponentLabel.Text, OnOffComponentLabel.Font);
         }
 
         private static int GetCircuitIOCount(BaseCircuit Circuit)
@@ -146,7 +164,7 @@ namespace circu_sim
             return labelCircuit;
         }
 
-        private Font GetInputOutputLabelFont()
+        private Font GetOnOffComponentLabelFont()
         {
             var labelFont = new Font("Microsoft JhengHei", GetFontSize() - 8, FontStyle.Bold);
             return labelFont;
@@ -158,6 +176,17 @@ namespace circu_sim
 
             LabelComponents.Font = labelMenuFont;
             LabelCircuits.Font = labelMenuFont;
+
+            DataGridViewAllCircuits.Font = labelMenuFont;
+            DataGridViewAllCircuits.DefaultCellStyle.Font = labelMenuFont;
+
+            foreach (var control in PictureBoxBoard.Controls)
+            {
+                if (control is TextBox onOffComponentLabel)
+                {
+                    onOffComponentLabel.Font = GetOnOffComponentLabelFont();
+                }
+            }
         }
     }
 }

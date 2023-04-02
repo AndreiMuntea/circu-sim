@@ -27,6 +27,7 @@ namespace circu_sim
 
             var switchComponentLabel = CreateOnOffComponentLabel(switchComponent);
             PictureBoxBoard.Controls.Add(switchComponentLabel);
+            PictureBoxBoard.Controls.SetChildIndex(switchComponentLabel, 0);
 
             OnOffComponentToLabel.Add(switchComponent, switchComponentLabel);
 
@@ -86,6 +87,7 @@ namespace circu_sim
 
             var bulbComponentLabel = CreateOnOffComponentLabel(bulbComponent);
             PictureBoxBoard.Controls.Add(bulbComponentLabel);
+            PictureBoxBoard.Controls.SetChildIndex(bulbComponentLabel, 0);
 
             OnOffComponentToLabel.Add(bulbComponent, bulbComponentLabel);
         }
@@ -116,12 +118,14 @@ namespace circu_sim
             TextBox onOffComponentLabel = new()
             {
                 Text = OnOffComponent.Node.Identifier,
-                Font = GetInputOutputLabelFont(),
+                Font = GetOnOffComponentLabelFont(),
                 ForeColor = ColorTranslator.FromHtml("#4D4D4D"),
                 BackColor = ColorTranslator.FromHtml("#D8D8D3"),
                 BorderStyle= BorderStyle.None,
-                Location = new Point(OnOffComponent.Location.X, OnOffComponent.Location.Y - 25)
+                MaxLength = 8
             };
+
+            onOffComponentLabel.Location = GetOnOffComponentLabelLocation(OnOffComponent);
             onOffComponentLabel.Size = GetOnOffComponentLabelSize(onOffComponentLabel);
 
             onOffComponentLabel.TextChanged += OnOffComponentLabel_TextChanged;

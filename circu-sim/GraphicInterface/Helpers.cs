@@ -84,10 +84,5 @@ namespace circu_sim
         {
             return DisplayCircuits.FirstOrDefault(x => x.CircuitLabel.Equals(Label));
         }
-
-        private static Size GetOnOffComponentLabelSize(TextBox OnOffComponentLabel)
-        {
-            return TextRenderer.MeasureText(OnOffComponentLabel.Text, OnOffComponentLabel.Font);
-        }
     }
 }
