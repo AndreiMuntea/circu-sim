@@ -1,5 +1,6 @@
 ﻿using circu_sim.CircuitLogic;
 using circu_sim.GraphicComponents;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -23,6 +24,10 @@ namespace circu_sim
             var switchComponent = CreateSwitchComponent();
             PictureBoxBoard.Controls.Add(switchComponent);
 
+            var switchComponentLabel = CreateOnOffComponentLabel(switchComponent);
+            PictureBoxBoard.Controls.Add(switchComponentLabel);
+            PictureBoxBoard.Controls.SetChildIndex(switchComponentLabel, 0);
+
             var connectorComponent = CreateConnectorComponent(switchComponent);
             PictureBoxBoard.Controls.Add(connectorComponent);
 
@@ -34,13 +39,12 @@ namespace circu_sim
             var inputPosition = GetNodePosition(CurrentCircuit.Inputs, CircuitNodeType.Input);
             var inputIdentifier = GetNodeIdentifier(CircuitNodeType.Input, inputPosition);
             var inputNode = CurrentCircuit.InsertNode(CircuitNodeType.Input, inputIdentifier);
-            var inputLocation = GetSwitchLocation(inputPosition);
 
             SwitchComponent switchComponent = new(
                 inputNode,
                 Properties.Resources.Switch_On,
                 Properties.Resources.Switch_Off,
-                inputLocation,
+                GetSwitchLocation(inputPosition),
                 GetOnOffComponenSize(),
                 inputPosition
             );
@@ -48,9 +52,6 @@ namespace circu_sim
             switchComponent.MouseClick += PictureBoxSwitch_MouseClick;
             switchComponent.MouseDoubleClick += PictureBoxSwitch_MouseClick;
             switchComponent.MouseMove += Line_MouseMove;
-
-            Label switchLabel = CreateInputOutputLabel(inputIdentifier, inputLocation);
-            PictureBoxBoard.Controls.Add(switchLabel);
 
             return switchComponent;
         }
@@ -80,6 +81,10 @@ namespace circu_sim
 
             var bulbComponent = CreateBulbComponent();
             PictureBoxBoard.Controls.Add(bulbComponent);
+
+            var bulbComponentLabel = CreateOnOffComponentLabel(bulbComponent);
+            PictureBoxBoard.Controls.Add(bulbComponentLabel);
+            PictureBoxBoard.Controls.SetChildIndex(bulbComponentLabel, 0);
         }
 
         private BulbComponent CreateBulbComponent()
@@ -87,13 +92,12 @@ namespace circu_sim
             var outputPosition = GetNodePosition(CurrentCircuit.Outputs, CircuitNodeType.Output);
             var outputIdentifier = GetNodeIdentifier(CircuitNodeType.Output, outputPosition);
             var outputNode = CurrentCircuit.InsertNode(CircuitNodeType.Output, outputIdentifier);
-            var outputLocation = GetBulbLocation(outputPosition);
 
             BulbComponent bulbComponent = new(
                 outputNode,
                 Properties.Resources.Bulb_On,
                 Properties.Resources.Bulb_Off,
-                outputLocation,
+                GetBulbLocation(outputPosition),
                 GetOnOffComponenSize(),
                 outputPosition
             );
@@ -101,10 +105,36 @@ namespace circu_sim
             bulbComponent.MouseClick += PictureBoxBulb_MouseClick;
             bulbComponent.MouseMove += Line_MouseMove;
 
-            Label bulbLabel = CreateInputOutputLabel(outputIdentifier, outputLocation);
-            PictureBoxBoard.Controls.Add(bulbLabel);
-
             return bulbComponent;
+        }
+
+        private TextBox CreateOnOffComponentLabel(OnOffComponent OnOffComponent)
+        {
+            TextBox onOffComponentLabel = new()
+            {
+                Text = OnOffComponent.Node.Identifier,
+                Font = GetInputOutputLabelFont(),
+                ForeColor = ColorTranslator.FromHtml("#4D4D4D"),
+                BackColor = ColorTranslator.FromHtml("#D8D8D3"),
+                BorderStyle= BorderStyle.None,
+                Location = new Point(OnOffComponent.Location.X, OnOffComponent.Location.Y - 25)
+            };
+            onOffComponentLabel.BringToFront();
+
+            onOffComponentLabel.Size = TextRenderer.MeasureText(onOffComponentLabel.Text, onOffComponentLabel.Font);
+            onOffComponentLabel.TextChanged += OnOffComponentLabel_TextChanged;
+
+            return onOffComponentLabel;
+        }
+
+        private void OnOffComponentLabel_TextChanged(object? sender, EventArgs e)
+        {
+            if (sender is not TextBox onOffComponentLabel)
+            {
+                return;
+            }
+
+            onOffComponentLabel.Size = TextRenderer.MeasureText(onOffComponentLabel.Text, onOffComponentLabel.Font);
         }
 
         private void PictureBoxSwitch_MouseClick(object? sender, MouseEventArgs e)

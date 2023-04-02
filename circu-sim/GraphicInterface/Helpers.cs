@@ -79,20 +79,5 @@ namespace circu_sim
         {
             return DisplayCircuits.FirstOrDefault(x => x.CircuitLabel.Equals(Label));
         }
-
-        private Label CreateInputOutputLabel(String Text, Point Location)
-        {
-            Label label = new()
-            {
-                Text = Text,
-                AutoSize = true,
-                Font = GetInputOutputLabelFont(),
-                ForeColor = ColorTranslator.FromHtml("#4D4D4D"),
-                Location = new Point(Location.X, Location.Y - 25)
-            };
-            label.BringToFront();
-
-            return label;
-        }
     }
 }
