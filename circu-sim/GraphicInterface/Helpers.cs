@@ -31,6 +31,11 @@ namespace circu_sim
             return SwitchToConnector.First(x => x.Key == Switch).Value;
         }
 
+        private TextBox GetLabelByOnOffComponent(OnOffComponent OnOffComponent)
+        {
+            return OnOffComponentToLabel.First(x => x.Key == OnOffComponent).Value;
+        }
+
         private static string GetNodeIdentifier(CircuitNodeType NodeType, int NodeIndex)
         {
             return NodeType.ToString() + NodeIndex;

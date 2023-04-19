@@ -1,16 +1,19 @@
 ﻿using circu_sim.CircuitLogic;
 using circu_sim.GraphicComponents;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace circu_sim
 {
     public partial class CircuitSimulator
     {
-        private const int MaxComponents = 8;
+        private const int MaxComponents = 10;
 
         private NestedCircuit CurrentCircuit = new(GenerateGuid());
         private readonly Dictionary<SwitchComponent, PictureBox> SwitchToConnector = new();
+        private readonly Dictionary<OnOffComponent, TextBox> OnOffComponentToLabel = new();
 
         private void PictureBoxSwitchIcon_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -21,6 +24,12 @@ namespace circu_sim
 
             var switchComponent = CreateSwitchComponent();
             PictureBoxBoard.Controls.Add(switchComponent);
+
+            var switchComponentLabel = CreateOnOffComponentLabel(switchComponent);
+            PictureBoxBoard.Controls.Add(switchComponentLabel);
+            PictureBoxBoard.Controls.SetChildIndex(switchComponentLabel, 0);
+
+            OnOffComponentToLabel.Add(switchComponent, switchComponentLabel);
 
             var connectorComponent = CreateConnectorComponent(switchComponent);
             PictureBoxBoard.Controls.Add(connectorComponent);
@@ -75,6 +84,12 @@ namespace circu_sim
 
             var bulbComponent = CreateBulbComponent();
             PictureBoxBoard.Controls.Add(bulbComponent);
+
+            var bulbComponentLabel = CreateOnOffComponentLabel(bulbComponent);
+            PictureBoxBoard.Controls.Add(bulbComponentLabel);
+            PictureBoxBoard.Controls.SetChildIndex(bulbComponentLabel, 0);
+
+            OnOffComponentToLabel.Add(bulbComponent, bulbComponentLabel);
         }
 
         private BulbComponent CreateBulbComponent()
@@ -96,6 +111,37 @@ namespace circu_sim
             bulbComponent.MouseMove += Line_MouseMove;
 
             return bulbComponent;
+        }
+
+        private TextBox CreateOnOffComponentLabel(OnOffComponent OnOffComponent)
+        {
+            TextBox onOffComponentLabel = new()
+            {
+                Text = OnOffComponent.Node.Identifier,
+                Font = GetOnOffComponentLabelFont(),
+                ForeColor = ColorTranslator.FromHtml("#4D4D4D"),
+                BackColor = ColorTranslator.FromHtml("#D8D8D3"),
+                BorderStyle= BorderStyle.None,
+                MaxLength = 8
+            };
+
+            onOffComponentLabel.Location = GetOnOffComponentLabelLocation(OnOffComponent);
+            onOffComponentLabel.Size = GetOnOffComponentLabelSize(onOffComponentLabel);
+
+            onOffComponentLabel.TextChanged += OnOffComponentLabel_TextChanged;
+            onOffComponentLabel.MouseMove += Line_MouseMove;
+
+            return onOffComponentLabel;
+        }
+
+        private void OnOffComponentLabel_TextChanged(object? sender, EventArgs e)
+        {
+            if (sender is not TextBox onOffComponentLabel)
+            {
+                return;
+            }
+
+            onOffComponentLabel.Size = GetOnOffComponentLabelSize(onOffComponentLabel);
         }
 
         private void PictureBoxSwitch_MouseClick(object? sender, MouseEventArgs e)
