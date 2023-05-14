@@ -10,8 +10,8 @@ namespace circu_sim
     {
         private void PictureBoxBoard_ClientSizeChanged(object sender, EventArgs e)
         {
-            ReplaceControls();
             SetFont();
+            ReplaceControls();
         }
 
         private void ReplaceControls()
@@ -26,12 +26,20 @@ namespace circu_sim
                     var connector = GetConnectorBySwitch(switchComponent);
                     connector.Size = GetConnectorSize(switchComponent);
                     connector.Location = GetConnectorLocation(switchComponent);
+
+                    var switchComponentLabel = GetLabelByOnOffComponent(switchComponent);
+                    switchComponentLabel.Size = GetOnOffComponentLabelSize(switchComponentLabel);
+                    switchComponentLabel.Location = GetOnOffComponentLabelLocation(switchComponent);
                 }
 
                 else if (control is BulbComponent bulbComponent)
                 {
                     bulbComponent.Size = GetOnOffComponenSize();
                     bulbComponent.Location = GetBulbLocation(bulbComponent.Position);
+
+                    var bulbComponentLabel = GetLabelByOnOffComponent(bulbComponent);
+                    bulbComponentLabel.Size = GetOnOffComponentLabelSize(bulbComponentLabel);
+                    bulbComponentLabel.Location = GetOnOffComponentLabelLocation(bulbComponent);
                 }
 
                 else if (control is Label labelCircuit)
@@ -43,13 +51,6 @@ namespace circu_sim
                     }
 
                     circuit.Resize(GetCircuitSize(circuit.LogicCircuit), GetCircuitConnectorSize(), GetCircuitLabelFont());
-                }
-
-                if (control is OnOffComponent onOffComponent)
-                {
-                    var onOffComponentLabel = GetLabelByOnOffComponent(onOffComponent);
-                    onOffComponentLabel.Size = GetOnOffComponentLabelSize(onOffComponentLabel);
-                    onOffComponentLabel.Location = GetOnOffComponentLabelLocation(onOffComponent);
                 }
             }
 
@@ -166,7 +167,7 @@ namespace circu_sim
 
         private Font GetOnOffComponentLabelFont()
         {
-            var labelFont = new Font("Microsoft JhengHei", GetFontSize() - 4, FontStyle.Bold);
+            var labelFont = new Font("Microsoft JhengHei", GetFontSize() - 6, FontStyle.Bold);
             return labelFont;
         }
 
