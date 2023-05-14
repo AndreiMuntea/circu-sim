@@ -10,8 +10,8 @@ namespace circu_sim
     {
         private void PictureBoxBoard_ClientSizeChanged(object sender, EventArgs e)
         {
-            ReplaceControls();
             SetFont();
+            ReplaceControls();
         }
 
         private void ReplaceControls()
@@ -167,7 +167,7 @@ namespace circu_sim
 
         private Font GetOnOffComponentLabelFont()
         {
-            var labelFont = new Font("Microsoft JhengHei", GetFontSize() - 4, FontStyle.Bold);
+            var labelFont = new Font("Microsoft JhengHei", GetFontSize() - 6, FontStyle.Bold);
             return labelFont;
         }
 
