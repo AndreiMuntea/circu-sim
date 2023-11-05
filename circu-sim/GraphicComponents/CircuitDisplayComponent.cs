@@ -171,6 +171,11 @@ namespace circu_sim.GraphicComponents
 
         public void Resize(Size NewLabelSize, Size NewConnectorSize, Font NewLabelFont)
         {
+            if (NewLabelSize.IsEmpty || NewConnectorSize.IsEmpty)
+            {
+                return;
+            }
+
             CircuitLabel.Size = NewLabelSize;
             CircuitLabel.Font = NewLabelFont;
             ConnectorSize = NewConnectorSize;
